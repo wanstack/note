@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  neutron-dhcp-agent:
+    container_name: neutron-dhcp-agent
+    restart: unless-stopped
+    network_mode: "host"
+    image: "neutron-dhcp-agent:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - /run/netns:/run/netns:shared
+      - log:/var/log/cpcloud/
+      - config:/etc/neutron/
+      - neutron-metadata-socket:/var/lib/neutron/
+    privileged: true
+
+volumes:
+  config:
+    name: neutron-dhcp-agent
+  log:
+    name: cpcloud_logs
+  neutron-metadata-socket:
+    name: neutron-metadata-socket

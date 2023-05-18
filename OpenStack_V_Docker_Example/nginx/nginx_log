@@ -1,0 +1,12 @@
+/var/log/cpcloud/nginx/*log {
+    create 0664 nginx root
+    daily
+    size 200M
+    rotate 2
+    missingok
+    notifempty
+    nocompress
+    sharedscripts
+    postrotate
+        /bin/kill -USR1 `cat /run/nginx.pid 2>/dev/null` 2>/dev/null || true
+    endscript

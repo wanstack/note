@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  placement:
+    container_name: placement
+    restart: unless-stopped
+    network_mode: "host"
+    image: "placement:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - log:/var/log/cpcloud/
+      - config:/etc/placement/
+
+volumes:
+  config:
+    name: placement
+  log:
+    name: cpcloud_logs

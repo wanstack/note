@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  etcd:
+    container_name: etcd
+    restart: unless-stopped
+    network_mode: "host"
+    image: "etcd:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/cpcloud/etcd/:/etc/etcd/:rw
+      - data:/var/lib/etcd
+
+volumes:
+  data:
+    name: etcd

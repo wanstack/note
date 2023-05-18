@@ -1,0 +1,4 @@
+/data/glance  ALLOW_CHRONY_NETWORKS(rw,no_root_squash,async)
+/data/resource  ALLOW_CHRONY_NETWORKS(rw,no_root_squash,async)
+/data/cinder  ALLOW_CHRONY_NETWORKS(rw,no_root_squash,async)
+/data/guacamole ALLOW_CHRONY_NETWORKS(rw,no_root_squash,async)

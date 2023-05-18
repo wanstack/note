@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  zun-cni-daemon:
+    container_name: zun-cni-daemon
+    restart: unless-stopped
+    network_mode: "host"
+    image: "zun-cni-daemon:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - /opt/pip/v:/opt/pip/v
+      - log:/var/log/cpcloud/
+      - config:/etc/zun/
+    privileged: true
+
+volumes:
+  config:
+    name: zun-cni-daemon
+  log:
+    name: cpcloud_logs

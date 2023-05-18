@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  svcloud:
+    container_name: svcloud
+    restart: always
+    network_mode: "host"
+    image: "svcloud:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - /opt/svcloud:/opt/svcloud
+      - /etc/docker/ssl:/etc/docker/ssl
+      - /opt/pip/svcloud:/opt/pip/svcloud
+      - log:/var/log/cpcloud
+
+volumes:
+  log:
+    name: cpcloud_logs
+

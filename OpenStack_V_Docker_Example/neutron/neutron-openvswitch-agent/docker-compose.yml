@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  neutron-openvswitch-agent:
+    container_name: neutron-openvswitch-agent
+    restart: unless-stopped
+    network_mode: "host"
+    image: "neutron-openvswitch-agent:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - /lib/modules:/lib/modules:ro
+      - /run/openvswitch:/run/openvswitch:shared
+      - log:/var/log/cpcloud/
+      - config:/etc/neutron/
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+
+volumes:
+  config:
+    name: neutron-openvswitch-agent
+  log:
+    name: cpcloud_logs

@@ -1,0 +1,5 @@
+[cpcloud]
+name=cpcloud
+baseurl=file:///opt/yum/v
+gpgcheck=0
+enabled=1

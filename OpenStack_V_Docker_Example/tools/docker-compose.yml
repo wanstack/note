@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  tools:
+    container_name: tools
+    image: "tools:${TAG:-latest}"
+    restart: unless-stopped
+    network_mode: "host"
+    volumes:
+    - /etc/localtime:/etc/localtime
+    - /opt/pip/cpcloud:/opt/pip/cpcloud
+    - /opt/pip/v:/opt/pip/v
+    - /opt/images:/opt/images:shared
+    - /opt/tmp:/opt/tmp:shared
+    - /etc/cpcloud/glance/:/etc/glance
+    - /etc/cpcloud/cinder-api/:/etc/cinder
+    - /run:/run:shared
+    - /dev:/dev:rw
+    - /etc/admin.openrc:/root/admin.openrc
+    - /etc/environment_config.conf:/etc/environment_config.conf
+    - log:/var/log/cpcloud
+    - data:/var/lib/cinder
+    - /home/tmpinstallusr/:/home/tmpinstallusr/
+    - /home/ftp/:/home/ftp/
+    privileged: true
+
+volumes:
+  log:
+    name: cpcloud_logs
+  data:
+    name: cinder_lib

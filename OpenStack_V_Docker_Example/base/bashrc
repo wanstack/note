@@ -1,0 +1,5 @@
+#### Custom data added by Kolla
+_BOLD="\[$(tput bold)\]"
+_RESET="\[$(tput sgr0)\]"
+
+PS1="${_BOLD}(${SERVICE_NAME})${_RESET}[\u@\h \W]\\$ "

@@ -1,0 +1,11 @@
+/var/log/cpcloud/keystone/*.log {
+    daily
+    compress
+    create 0664 keystone keystone
+    rotate 14
+    dateext
+    dateformat .%Y-%m-%d
+    missingok
+    notifempty
+    copytruncate
+}

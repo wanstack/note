@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  nova-api:
+    container_name: nova-api
+    restart: unless-stopped
+    network_mode: "host"
+    image: "nova-api:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - /lib/modules:/lib/modules:ro
+      - log:/var/log/cpcloud/
+      - config:/etc/nova/
+    privileged: true
+
+volumes:
+  config:
+    name: nova-api
+  log:
+    name: cpcloud_logs

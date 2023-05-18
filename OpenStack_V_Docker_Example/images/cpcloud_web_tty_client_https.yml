@@ -1,0 +1,15 @@
+version: '2.3'
+
+services:
+  cpcloud_web_tty_client_ssl:
+    container_name: cpcloud_web-tty-client-ssl
+    restart: always
+    network_mode: bridge
+    image: "container-web-tty:v2"
+    ports:
+      - "8080:8080"
+    volumes:
+      - /etc/webtty/ssl:/etc/docker/ssl
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro

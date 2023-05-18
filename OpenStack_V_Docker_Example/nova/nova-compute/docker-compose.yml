@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  nova-compute:
+    container_name: nova-compute
+    restart: unless-stopped
+    network_mode: "host"
+    image: "nova-compute:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - /lib/modules:/lib/modules:ro
+      - /run:/run:shared
+      - /dev:/dev:rw
+      - /var/lib/nova/mnt/:/var/lib/nova/mnt:shared
+      - log:/var/log/cpcloud/
+      - config:/etc/nova/
+      - nova-compute-shared:/var/lib/nova/
+      - libvirtd-shared:/var/lib/libvirt/
+    privileged: true
+
+
+volumes:
+  config:
+    name: nova-compute
+  log:
+    name: cpcloud_logs
+  nova-compute-shared:
+    name: nova-compute-shared
+  libvirtd-shared:
+    name: libvirtd-shared

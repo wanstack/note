@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  yum:
+    container_name: yum
+    restart: unless-stopped
+    network_mode: "host"
+    image: "yum:${TAG:-latest}"
+    volumes:
+      - /opt/pip/v:/opt/pip/v
+      - /etc/localtime:/etc/localtime:ro
+
+    privileged: true

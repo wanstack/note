@@ -1,0 +1,6 @@
+DEVICETYPE=ovs
+TYPE=OVSBridge
+NM_CONTROLLED=no
+DEVICE=br-ex
+ONBOOT="yes"
+BOOTPROTO="static"

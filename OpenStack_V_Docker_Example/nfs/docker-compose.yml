@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  nfs:
+    container_name: nfs
+    restart: always
+    network_mode: "host"
+    image: "nfs:${TAG:-latest}"
+    environment:
+      - NFS_EXPORT_DIR_1=/data/glance
+      - NFS_EXPORT_DIR_2=/data/resource
+      - NFS_EXPORT_DIR_3=/data/cinder
+      - NFS_EXPORT_DIR_4=/data/guacamole
+      - NFS_EXPORT_DIR_5=/data/guacdrive
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /data/:/data/
+    cap_add:
+      - sys_admin
+    privileged: true

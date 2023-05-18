@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  cpcloud:
+    container_name: cpcloud
+    restart: always
+    network_mode: "host"
+    image: "cpcloud:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - /opt/cpcloud_project/cpcloud:/opt/cpcloud_project/cpcloud
+      - /opt/pip/cpcloud:/opt/pip/cpcloud
+      - /opt/pip/v:/opt/pip/v
+      - /etc/cpcloud/supervisor.conf.d/:/etc/cpcloud/supervisor.conf.d/
+      - /etc/cpcloud/glance/:/etc/glance
+      - /etc/cpcloud/cinder-api/:/etc/cinder
+      - /run/openvswitch:/run/openvswitch:shared
+      - /run:/run:shared
+      - /usr/lib/docker:/usr/lib/docker:rw
+      - /var/lib/docker:/var/lib/docker:rw
+      - /lib/modules:/lib/modules:ro
+      - /dev:/dev:rw
+      - log:/var/log/cpcloud
+      - data:/var/lib/cinder
+    privileged: true
+
+volumes:
+  log:
+    name: cpcloud_logs
+  data:
+    name: cinder_lib
+

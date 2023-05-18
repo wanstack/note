@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  nova-scheduler:
+    container_name: nova-scheduler
+    restart: unless-stopped
+    network_mode: "host"
+    image: "nova-scheduler:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - log:/var/log/cpcloud/
+      - config:/etc/nova/
+
+volumes:
+  config:
+    name: nova-scheduler
+  log:
+    name: cpcloud_logs

@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  cinder-scheduler:
+    container_name: cinder-scheduler
+    restart: unless-stopped
+    network_mode: "host"
+    image: "cinder-scheduler:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - log:/var/log/cpcloud/
+      - config:/etc/cinder/
+
+volumes:
+  config:
+    name: cinder-scheduler
+  log:
+    name: cpcloud_logs

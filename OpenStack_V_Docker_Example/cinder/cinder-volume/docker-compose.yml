@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  cinder-volume:
+    container_name: cinder-volume
+    restart: unless-stopped
+    network_mode: "host"
+    image: "cinder-volume:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - /dev:/dev:rw
+      - /lib/modules:/lib/modules:ro
+      - /run:/run:shared
+      - log:/var/log/cpcloud/
+      - config:/etc/cinder/
+      - data:/var/lib/cinder
+    privileged: true
+
+volumes:
+  config:
+    name: cinder-volume
+  log:
+    name: cpcloud_logs
+  data:
+    name: cinder_lib

@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  glance:
+    container_name: glance
+    restart: unless-stopped
+    network_mode: "host"
+    image: "glance:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - log:/var/log/cpcloud
+      - config:/etc/glance/
+      - data:/var/lib/glance/
+    privileged: true
+
+volumes:
+  log:
+    name: cpcloud_logs
+  data:
+    name: glance_data
+  config:
+    name: glance

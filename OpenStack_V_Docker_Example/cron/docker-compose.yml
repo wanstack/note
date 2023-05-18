@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  cron:
+    container_name: cron
+    restart: unless-stopped
+    network_mode: "host"
+    image: "cron:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - /run/openvswitch:/run/openvswitch:shared

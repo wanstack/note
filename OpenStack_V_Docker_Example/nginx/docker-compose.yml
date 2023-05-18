@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  nginx:
+    container_name: nginx
+    restart: unless-stopped
+    network_mode: "host"
+    image: "nginx:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /home/apps:/home/apps/  # 应用前端页面
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - log:/var/log/cpcloud
+      - config:/etc/nginx/
+
+
+volumes:
+  log:
+    name: cpcloud_logs
+  config:
+    name: nginx

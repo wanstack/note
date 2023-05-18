@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  keystone:
+    container_name: keystone
+    restart: unless-stopped
+    network_mode: "host"
+    image: "keystone:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - log:/var/log/cpcloud/
+      - config:/etc/keystone/
+
+volumes:
+  log:
+    name: cpcloud_logs
+  config:
+    name: keystone

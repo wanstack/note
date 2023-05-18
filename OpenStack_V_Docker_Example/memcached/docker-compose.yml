@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  memcached:
+    container_name: memcached
+    restart: unless-stopped
+    network_mode: "host"
+    image: "memcached:${TAG:-latest}"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/environment_config.conf:/etc/environment_config.conf

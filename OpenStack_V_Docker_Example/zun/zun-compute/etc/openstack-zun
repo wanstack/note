@@ -1,0 +1,11 @@
+/var/log/cpcloud/zun/*.log {
+    daily
+    create 0664 zun zun
+    rotate 14
+    compress
+    dateext
+    dateformat .%Y-%m-%d
+    missingok
+    notifempty
+    copytruncate
+}

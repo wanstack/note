@@ -1,0 +1,11 @@
+/var/log/cpcloud/cinder/*.log {
+    daily
+    create 0664 cinder cinder
+    rotate 14
+    compress
+    dateext
+    dateformat .%Y-%m-%d
+    missingok
+    notifempty
+    copytruncate
+}

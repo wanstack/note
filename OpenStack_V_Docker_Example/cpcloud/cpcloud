@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+
+from argparse import ArgumentParser
+
+version_siple='cpcloud v5.3.6 V(ictoria), 2023-01-09'
+
+
+version_all='  ' + version_siple + '''
+  cpc module list
+     ----------------------------
+     | barbicanclient  : 5.0.1  |
+     | cinderclient    : 7.2.0  |
+     | designateclient : 4.1.0  |
+     | keystoneclient  : 4.2.0  |
+     | novaclient      : 17.2.1 |
+     | openstack       : 0.50.0 |
+     | openstackclient : 5.4.0  |
+     | swiftclient     : 3.10.1 |
+     | zunclient       : 4.1.1  |
+     ----------------------------
+'''
+
+parser = ArgumentParser(description='Display cpcloud version!')
+
+parser.add_argument('-v', action='version', version=("%s"%(version_siple)), help='Display brief version information')
+parser.add_argument('--version', help='Display detailed version information',action='store_true', default=False)
+
+f=parser.parse_args()
+if  f.version :  print(version_all)

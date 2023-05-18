@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  horizon:
+    container_name: horizon
+    restart: unless-stopped
+    network_mode: "host"
+    image: "horizon:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /tmp:/tmp:rw
+      - /opt/pip/v:/opt/pip/v
+      - log:/var/log/cpcloud/
+      - config:/etc/httpd/
+
+volumes:
+  config:
+    name: horizon
+  log:
+    name: cpcloud_logs

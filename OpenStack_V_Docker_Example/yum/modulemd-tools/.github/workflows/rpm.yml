@@ -1,0 +1,36 @@
+---
+name: Create RPM
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  rpm:
+    runs-on: ubuntu-latest
+    environment: test-env
+    env:
+      ARCH: ${{ github.runner_arch }}
+    container:
+      image: ghcr.io/mkulik-rh/modulemd_tools-ci:latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set env variables
+        run: |
+          echo "ARCH=$(uname -i)" >> $GITHUB_ENV
+          echo "VERSION=$(sed -n 's/Version: //p' modulemd-tools.spec | head -1)" >> $GITHUB_ENV
+      - name: Github actions checkout post (workaround)
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: Create sources
+        run: |
+          git archive HEAD --prefix=modulemd-tools-$VERSION/ -o modulemd-tools-$VERSION.tar
+          gzip modulemd-tools-$VERSION.tar
+      - name: Setup directory tree
+        run: |
+          rpmdev-setuptree
+      - name: Build SRPM & RPM
+        run: |
+          cp modulemd-tools-$VERSION.tar.gz $HOME/rpmbuild/SOURCES/
+          cp modulemd-tools.spec $HOME/rpmbuild/SPECS/
+          rpmbuild -ba $HOME/rpmbuild/SPECS/modulemd-tools.spec

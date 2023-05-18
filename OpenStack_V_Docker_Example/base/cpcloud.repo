@@ -1,0 +1,5 @@
+[cpcloud]
+name=cpcloud
+baseurl=http://10.100.7.56:8088/
+gpgcheck=0
+enabled=1

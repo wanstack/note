@@ -1,0 +1,55 @@
+#!/bin/bash
+
+set -x
+
+source /etc/environment_config.conf
+
+
+function change_config() {
+    sudo test -d /var/log/cpcloud/neutron || sudo mkdir -p /var/log/cpcloud/neutron/
+    sudo chmod -R 777 /var/log/cpcloud
+    sudo chown -R nova.nova /var/log/cpcloud/neutron
+
+    sudo sed -ri "s@RABBITMQ_USER@$RABBITMQ_USER@g" /etc/neutron/neutron.conf
+    sudo sed -ri "s@RABBITMQ_PASSWD@$RABBITMQ_PASSWD@g" /etc/neutron/neutron.conf
+    sudo sed -ri "s@CONTROLLER_HOSTNAME@$CONTROLLER_HOSTNAME@g" /etc/neutron/neutron.conf
+    sudo sed -ri "s@NEUTRON_PASSWD@$NEUTRON_PASSWD@g" /etc/neutron/neutron.conf
+    sudo sed -ri "s@NOVA_PASSWD@$NOVA_PASSWD@g" /etc/neutron/neutron.conf
+
+    sudo sed -ri "s@LOCAL_HOSTNAME@$LOCAL_HOSTNAME@g" /etc/neutron/metadata_agent.ini
+    sudo sed -ri "s@METADATA_PASSWD@$METADATA_PASSWD@g" /etc/neutron/metadata_agent.ini
+
+    sudo sed -ri "s@10.100.7.56@$CONTROLLER_MANAGEMENT_IP@g" /etc/yum.repos.d/cpcloud.repo
+    sudo sed -ri "s@10.100.7.56@$CONTROLLER_MANAGEMENT_IP@g" /root/.pip/pip.conf
+    sudo ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
+}
+
+
+
+function start_service() {
+    sudo /usr/sbin/modprobe bridge
+    sudo /usr/sbin/modprobe br_netfilter 2>> /dev/null || :
+    count=$(sysctl -p  | grep -i "net.bridge.bridge-nf-call" | wc -l)
+    if [[ $count -lt 1 ]];then
+        for proto in ip ip6; do
+            sudo /usr/sbin/sysctl -w net.bridge.bridge-nf-call-${proto}tables=1
+        done
+    fi 
+
+
+
+    /usr/bin/neutron-openvswitch-agent --config-file /usr/share/neutron/neutron-dist.conf \
+    --config-file /etc/neutron/neutron.conf  \
+    --config-file /etc/neutron/plugins/ml2/openvswitch_agent.ini \
+    --config-dir /etc/neutron/conf.d/common \
+    --config-dir /etc/neutron/conf.d/neutron-openvswitch-agent \
+    --log-file /var/log/cpcloud/neutron/openvswitch-agent.log
+}
+
+function main() {
+    change_config
+    start_service
+
+}
+
+main

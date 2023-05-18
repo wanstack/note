@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  zun-compute:
+    container_name: zun-compute
+    restart: unless-stopped
+    network_mode: "host"
+    image: "zun-compute:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - /opt/pip/v:/opt/pip/v
+      - /var/lib/docker:/var/lib/docker:rw
+      - /lib/modules:/lib/modules:ro
+      - /dev:/dev:rw
+      - /run:/run:shared
+      - /usr/lib/docker:/usr/lib/docker:rw
+      - log:/var/log/cpcloud/
+      - config:/etc/zun/
+    privileged: true
+
+volumes:
+  config:
+    name: zun-compute
+  log:
+    name: cpcloud_logs

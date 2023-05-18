@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  mariadb:
+    container_name: mariadb
+    restart: unless-stopped
+    network_mode: "host"
+    image: "mariadb:${TAG:-latest}"
+    env_file:
+      - /etc/environment_config.conf
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWD}
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - data:/var/lib/mysql/
+      - /etc/cpcloud/mariadb/:/etc/my.cnf.d/
+      - log:/var/log/cpcloud/
+
+volumes:
+  data:
+    name: mariadb
+  log:
+    name: cpcloud_logs

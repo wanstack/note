@@ -1,0 +1,19 @@
+version: '2.3'
+networks:
+  bridge_network:
+    external: true
+
+services:
+  redis:
+    container_name: redis
+    restart: always
+    networks:
+      - bridge_network
+    image: "redis:latest"
+    ports:
+      - "9379:6379"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ./redis.conf:/etc/redis.conf
+    command: redis-server /etc/redis.conf

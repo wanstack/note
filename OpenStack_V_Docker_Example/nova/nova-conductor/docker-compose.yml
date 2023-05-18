@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  nova-conductor:
+    container_name: nova-conductor
+    restart: unless-stopped
+    network_mode: "host"
+    image: "nova-conductor:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - log:/var/log/cpcloud/
+      - config:/etc/nova/
+
+volumes:
+  config:
+    name: nova-conductor
+  log:
+    name: cpcloud_logs

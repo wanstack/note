@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  nova-libvirt:
+    container_name: nova-libvirt
+    restart: unless-stopped
+    network_mode: "host"
+    image: "nova-libvirt:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - /lib/modules:/lib/modules:ro
+      - /var/lib/nova/mnt:/var/lib/nova/mnt:shared
+      - /dev:/dev:rw
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+      - /run:/run:shared
+      - log:/var/log/cpcloud/
+      - config:/etc/libvirt/
+      - nova-compute-shared:/var/lib/nova/
+      - libvirtd-shared:/var/lib/libvirt/
+      - qemu:/etc/libvirt/qemu
+    pid: "host"
+    privileged: true
+
+
+volumes:
+  config:
+    name: nova-libvirt
+  log:
+    name: cpcloud_logs
+  nova-compute-shared:
+    name: nova-compute-shared
+  libvirtd-shared:
+    name: libvirtd-shared
+  qemu:
+    name: nova-libvirt-qemu
+
+

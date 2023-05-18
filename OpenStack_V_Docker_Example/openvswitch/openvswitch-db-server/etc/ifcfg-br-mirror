@@ -1,0 +1,6 @@
+DEVICETYPE=ovs
+TYPE=OVSBridge
+NM_CONTROLLED=no
+DEVICE=br-mirror
+ONBOOT="yes"
+BOOTPROTO="none"

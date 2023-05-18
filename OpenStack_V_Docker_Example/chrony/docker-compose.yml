@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  chrony:
+    container_name: chrony
+    image: "chrony:${TAG:-latest}"
+    restart: unless-stopped
+    network_mode: "host"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/cpcloud/chrony/:/etc/chrony/:rw
+      - log:/var/log/cpcloud/
+    cap_add:
+      - SYS_TIME
+
+volumes:
+  log:
+    name: cpcloud_logs
+
+

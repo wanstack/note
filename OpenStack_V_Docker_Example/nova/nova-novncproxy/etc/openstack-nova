@@ -1,0 +1,11 @@
+/var/log/cpcloud/nova/*.log {
+    daily
+    create 0664 nova nova
+    rotate 14
+    compress
+    missingok
+    dateext
+    dateformat .%Y-%m-%d
+    notifempty
+    copytruncate
+}

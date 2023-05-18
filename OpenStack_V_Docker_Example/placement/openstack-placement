@@ -1,0 +1,11 @@
+/var/log/cpcloud/placement/*.log {
+    daily
+    create 0664 placement placement
+    rotate 14
+    compress
+    dateext
+    dateformat .%Y-%m-%d
+    missingok
+    notifempty
+    copytruncate
+}

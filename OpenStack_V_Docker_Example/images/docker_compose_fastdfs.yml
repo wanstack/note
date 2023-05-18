@@ -1,0 +1,13 @@
+version: '2.3'
+
+services:
+  fastdfs:
+    image: fastdfs
+    container_name: fastdfs
+    restart: always
+    volumes:
+      - ./dfs/data:/home/dfs/data
+      - /etc/localtime:/etc/localtime:ro
+    network_mode: host
+    environment:
+      - FASTDFS_IPADDR=IPADDR_FASTDFS

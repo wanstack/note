@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  nova-novncproxy:
+    container_name: nova-novncproxy
+    restart: unless-stopped
+    network_mode: "host"
+    image: "nova-novncproxy:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - log:/var/log/cpcloud/
+      - config:/etc/nova/
+
+volumes:
+  config:
+    name: nova-novncproxy
+  log:
+    name: cpcloud_logs

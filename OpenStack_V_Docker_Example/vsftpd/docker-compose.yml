@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  vsftpd:
+    container_name: vsftpd
+    restart: unless-stopped
+    network_mode: "host"
+    image: "vsftpd:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /home/ftp/:/home/ftp/
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro

@@ -1,0 +1,3 @@
+{
+    "container:create:privileged": [["rule:admin_api"]]
+}

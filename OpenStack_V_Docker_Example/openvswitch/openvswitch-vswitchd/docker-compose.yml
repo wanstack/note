@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  openvswitch-vswitchd:
+    container_name: openvswitch-vswitchd
+    restart: unless-stopped
+    network_mode: "host"
+    image: "openvswitch-vswitchd:${TAG:-latest}"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /lib/modules:/lib/modules
+      - /run/openvswitch:/run/openvswitch:shared
+      - log:/var/log/cpcloud/
+      - config:/etc/openvswitch/
+    privileged: true
+
+volumes:
+  config:
+    name: openvswitch-vswitchd
+  log:
+    name: cpcloud_logs

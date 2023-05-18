@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  zun-api:
+    container_name: zun-api
+    restart: unless-stopped
+    network_mode: "host"
+    image: "zun-api:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - /opt/pip/v:/opt/pip/v
+      - log:/var/log/cpcloud/
+      - config:/etc/zun/
+
+volumes:
+  config:
+    name: zun-api
+  log:
+    name: cpcloud_logs

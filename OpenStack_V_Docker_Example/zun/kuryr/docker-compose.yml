@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  kuryr:
+    container_name: kuryr
+    restart: unless-stopped
+    network_mode: "host"
+    image: "kuryr:${TAG:-latest}"
+    volumes:
+      - /etc/environment_config.conf:/etc/environment_config.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/admin.openrc:/etc/admin.openrc:ro
+      - /opt/pip/v:/opt/pip/v
+      - /run:/run:shared
+      - /lib/modules:/lib/modules:ro
+      - /usr/lib/docker:/usr/lib/docker:rw
+      - log:/var/log/cpcloud/
+      - config:/etc/kuryr/
+    privileged: true
+
+volumes:
+  config:
+    name: kuryr
+  log:
+    name: cpcloud_logs

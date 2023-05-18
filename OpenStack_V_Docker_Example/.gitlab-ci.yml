@@ -1,0 +1,12 @@
+stages:
+  - build
+
+build:
+  stage: build
+  tags:
+    - openstack_v
+#  only:
+#    - develop
+  script:
+#    - bash build.sh develop latest  # develop is svcloud and cpcloud branch, latest is all images tag
+    - bash build.sh feat/capstone latest  # develop is svcloud and cpcloud branch, latest is all images tag
