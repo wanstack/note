@@ -125,25 +125,6 @@ echo 'Hello World!' # 井号后面的部分也是注释
 
 
 
-## 多行注释
-
-```bash
-#!/bin/bash
-
-echo "Say Something"
-
-<<COMMENT
-注释行1
-注释行2
-...
-注释行n
-COMMENT
-
-echo "abc"
-```
-
-
-
 ## 脚本参数
 
 调用脚本的时候，脚本文件名后面可以带有参数。
