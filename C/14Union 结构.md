@@ -16,7 +16,7 @@ union quantity {
 
 使用时，声明一个该类型的变量。
 
-```
+```c
 // 写法一
 union quantity q;
 q.count = 4;
@@ -32,14 +32,14 @@ union quantity q = {4};
 
 执行完上面的代码以后，`q.count`可以取到值，另外两个属性取不到值。
 
-```
+```c
 printf("count is %i\n", q.count); // count is 4
 printf("weight is %f\n", q.weight); // 未定义行为
 ```
 
 如果要让`q.weight`属性可以取到值，就要先为它赋值。
 
-```
+```c
 q.weight = 0.5;
 printf("weight is %f\n", q.weight); // weight is 0.5
 ```
@@ -48,7 +48,7 @@ printf("weight is %f\n", q.weight); // weight is 0.5
 
 Union 结构也支持指针运算符`->`。
 
-```
+```c
 union quantity {
   short count;
   float weight;
@@ -68,7 +68,7 @@ printf("%d\n", ptr->count); // 4
 
 Union 结构指针与它的属性有关，当前正在按照哪个属性解读数据，它的指针就是对应的数据类型。
 
-```
+```c
 union foo {
   int a;
   float b;
@@ -90,7 +90,7 @@ printf("%f\n", *foo_float_p);  // 3.141592
 
 typedef 命令可以为 Union 数据类型起别名。
 
-```
+```c
 typedef union {
   short count;
   float weight;
