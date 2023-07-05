@@ -1,7 +1,5 @@
 [toc]
 
-官方文档: https://www.rabbitmq.com/tutorials/tutorial-one-python.html
-
 ## 介绍
 
 RabbitMQ是一个消息代理。它的工作就是接收和转发消息。你可以把它想像成一个邮局：你把信件放入邮箱，邮递员就会把信件投递到你的收件人处。在这个比喻中，RabbitMQ就扮演着邮箱、邮局以及邮递员的角色。
@@ -31,9 +29,7 @@ RabbitMQ和邮局的主要区别在于，它处理纸张，而是接收、存储
 
 生产者（producer）把消息发送到一个名为“hello”的队列中。消费者（consumer）从这个队列中获取消息。
 
-> #### RabbitMQ库
->
-> RabbitMQ使用的是AMQP 0.9.1协议。这是一个用于消息传递的开放、通用的协议。针对[不同编程语言](https://www.rabbitmq.com/devtools.html)有大量的RabbitMQ客户端可用。在这个系列教程中，RabbitMQ团队推荐使用[Pika](https://pika.readthedocs.org/en/0.10.0/#)这个Python客户端。大家可以通过[pip](https://pip.pypa.io/en/stable/quickstart/)这个包管理工具进行安装：
+就跟QQ一样，我在这边发，并不是直接发给你，而是发给了中间的服务器，你接收也不直接从我这里接，从服务器去取。上图红色部分，就是队列，队列就是用来缓冲消息的。这样，我们双边不断发消息，就不会让自己受阻。
 
 ### 发送
 
@@ -74,9 +70,36 @@ print(" [x] Sent 'Hello World!'")
 connection.close()
 ```
 
-> 发送不成功！
->
-> 如果这是你第一次使用RabbitMQ，并且没有看到“Sent”消息出现在屏幕上，你可能会抓耳挠腮不知所以。这也许是因为没有足够的磁盘空间给代理使用所造成的（代理默认需要200MB的空闲空间），所以它才会拒绝接收消息。查看一下代理的日志文件进行确认，如果需要的话也可以减少限制。[配置文件文档](http://www.rabbitmq.com/configure.html#config-items)会告诉你如何更改磁盘空间限制（disk_free_limit）。
+**send.py的完整代码：**
+
+```python
+#!/usr/bin/env python
+import pika
+
+connection =
+pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+channel = connection.channel()
+
+channel.queue_declare(queue='hello')
+
+channel.basic_publish(exchange='',
+                      routing_key='hello',
+                      body='Hello World!')
+print(" [x] Sent 'Hello World!'")
+connection.close()
+```
+
+登录：http://10.100.7.51:15672/#/queues   guest/guest 查看 queues队列
+
+![image-20230703092855283](rabbitmq_images/image-20230703092855283.png)
+
+查看队列中的消息:
+
+![image-20230703093014287](rabbitmq_images/image-20230703093014287.png)
+
+
+
+
 
 ### 接收
 
@@ -134,28 +157,7 @@ print(' [*] Waiting for messages. To exit press CTRL+C')
 channel.start_consuming()
 ```
 
-### 将代码整合到一起
 
-**send.py的完整代码：**
-
-```python
-#!/usr/bin/env python
-import pika
-
-connection =
-pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-channel = connection.channel()
-
-channel.queue_declare(queue='hello')
-
-channel.basic_publish(exchange='',
-                      routing_key='hello',
-                      body='Hello World!')
-print(" [x] Sent 'Hello World!'")
-connection.close()
-```
-
-([send.py源码](http://github.com/rabbitmq/rabbitmq-tutorials/blob/master/python/send.py))
 
 **receive.py的完整代码：**
 
@@ -163,24 +165,24 @@ connection.close()
 #!/usr/bin/env python
 import pika
 
-connection =
-pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 
 channel.queue_declare(queue='hello')
 
+
 def callback(ch, method, properties, body):
     print(" [x] Received %r" % body)
 
-channel.basic_consume(callback,
+
+channel.basic_consume(on_message_callback=callback,
                       queue='hello',
-                      no_ack=True)
+                      auto_ack=True)
 
 print(' [*] Waiting for messages. To exit press CTRL+C')
 channel.start_consuming()
-```
 
-([receive.py源码](http://github.com/rabbitmq/rabbitmq-tutorials/blob/master/python/receive.py))
+```
 
 现在我们可以在终端中尝试一下我们的程序了。
 首先我们启动一个消费者，它会持续的运行来等待投递到达。
@@ -202,4 +204,6 @@ python send.py
 
 试下在新的终端中再次运行`send.py`。
 
-我们已经学会如何发送消息到一个已知队列中并接收消息。是时候移步到第二部分了，我们将会建立一个简单的工作队列（work queue）。
+![image-20230703100710360](rabbitmq_images/image-20230703100710360.png)
+
+hello队列中的消息被消费后，已经移除了。
