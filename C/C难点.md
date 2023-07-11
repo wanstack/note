@@ -146,6 +146,34 @@ int main() {
 
 
 
+```c
+int main()
+{	
+	int age = 0;
+	scanf("%d", &age);
+	if (age < 18)
+	{
+		printf("少年");
+	}
+	//else if (18 <= age < 30) // 这里写法错误，输入31 也会走到这里
+	else if (age>=18 && age<30)
+	{
+		printf("中年");
+	}
+	else 
+	{
+		printf("老年");
+	}
+	return 0;
+}
+```
+
+
+
+
+
+
+
 ## for 执行流程
 
 ```c
@@ -198,4 +226,5 @@ while(表达式)
 
 # 函数递归
 
-![image-20230705091321221](image/image-20230705091321221.png)
+![image-20230711114834525](image/image-20230711114834525.png)
+
