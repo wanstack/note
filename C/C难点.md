@@ -633,6 +633,21 @@ int main()
 
 
 
+二级指针：
+
+```c
+int main()
+{
+	int a = 10;
+	int* pa = &a;
+	int** ppa = &pa;		// 第二个 * 说明ppa是指针，int*是说明ppa指向的对象是 int* 类型
+	**ppa = 20;
+
+	return 0;
+}
+
+```
+
 
 
 
